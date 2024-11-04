@@ -3,7 +3,6 @@ import { InjectModel } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
 import { User } from './schema/users.schema';
 import * as bcrypt from 'bcrypt';
-import { isValidEmail } from 'src/utils/EmailUtils';
 
 @Injectable()
 export class UserService {
@@ -28,8 +27,8 @@ export class UserService {
         }
 
         //xu ly email khong dung format
-        if(!isValidEmail(user.email)){
-            throw new Error('Email is not valid');
+        if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(user.email.toString())){
+            throw new Error('Email is invalid');
         }
 
         //xu ly bo trong username
